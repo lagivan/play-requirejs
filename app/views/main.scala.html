@@ -1,27 +1,33 @@
 @(title: String, module: String)(content: Html)
 
-
-
-
-
 <!DOCTYPE html>
 <html>
     <head>
         <title>@title</title>
-        
-        <script type="text/javascript" src="assets/javascripts/lib/require.js"></script>
-        <script>
-            //Load common code that includes config, then load the app
-            //logic for this page. Do the require calls here instead of
-            //a separate file so after a build there are only 2 HTTP
-            //requests instead of three.
-            require(['./assets/javascripts/common'], function (common) {
-                //js/common sets the baseUrl to be js/ so
-                //can just ask for 'app/main1' here instead
-                //of 'js/app/main1'
-                require(["@module"]);
-            });
+        <script type="text/javascript">
+            var OPTIONS = {};
+            OPTIONS.YUI_MODE = "min";
+            OPTIONS.YUI_COMBINE = true;
+            OPTIONS.YUI_PATH = "http://yui.yahooapis.com/3.14.1/build/yui/yui-min";
         </script>
+        <script type="text/javascript">
+            var require = {
+                paths: {
+                    YUI: OPTIONS.YUI_PATH
+                },
+                shim: {
+                    YUI: {
+                        exports: 'YUI'
+                    }
+                },
+                waitSeconds: 0,
+                YUI: {
+                    filter: OPTIONS.YUI_MODE,
+                    combine: OPTIONS.YUI_COMBINE
+                }
+            };
+        </script>
+        @helper.requireJs(core = routes.Assets.at("javascripts/require.js").url, module = routes.Assets.at(module).url)
     </head>
     <body>
         @content
