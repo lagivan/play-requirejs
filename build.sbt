@@ -8,8 +8,8 @@ libraryDependencies ++= Seq(javaJdbc, javaEbean)
 
 playJavaSettings
 
-requireJs += "main1.js"
+requireJs += "app/main1.js"
 
-requireJs += "main2.js"
+requireJs += "app/main2.js"
 
 requireJsShim += "build.js"
